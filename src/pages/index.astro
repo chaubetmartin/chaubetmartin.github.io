@@ -1,0 +1,464 @@
+---
+// PAGE D'ACCUEIL : src/pages/index.astro  →  adresse "/"
+// Dans Astro, chaque fichier du dossier src/pages devient une page du site
+// (le nom du fichier donne l'adresse : contact.astro → /contact).
+
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import CtaBandeau from '../components/CtaBandeau.astro';
+import PoleRoulette from '../components/PoleRoulette.astro';
+import { videos } from '../data/site';
+import { articlesTries } from '../data/articles';
+
+// Les chiffres clés affichés sous le bandeau.
+const chiffres = [
+  { valeur: 'Top 3', legende: 'Parmi les 3 meilleurs JE de France en 2022' },
+  { valeur: '+ 600', legende: 'Projets réalisés' },
+  { valeur: '97 %', legende: 'Taux de satisfaction' },
+  { valeur: '49 ans', legende: "d'expérience" },
+];
+
+const temoignages = [
+  {
+    texte:
+      "Le résultat est au rendez-vous. Durant cette industrialisation nous avons pu bénéficier de toute l'innovation des étudiants de l'N7 ainsi que d'un suivi qu'on peut sans forcer qualifier de professionnel tant en termes de réactivité que de qualité",
+    nom: 'Benoît JEANSON',
+    poste: 'R&D project manager, RTE',
+    photo:
+      'https://cdn.prod.website-files.com/67a9fca34d150f14e73d9ba7/681b5475e691f7d5b39e2cd8_BJ.webp',
+    alt: 'Benoit Jeanson, RTE',
+  },
+  {
+    texte:
+      "Je recommande vivement N7 Consulting à toute entreprise recherchant un travail sérieux et de qualité pour des projets traitant de problématiques de mécanique des fluides ou d'apprentissage machine.",
+    nom: 'David BARBIER',
+    poste: 'CTO & Co-Founder, QuadrX',
+    photo:
+      'https://cdn.prod.website-files.com/67a9fca34d150f14e73d9ba7/681b56138da892f599a9a5bf_DB.jpg',
+    alt: 'David Barbier, QuadrX',
+  },
+];
+
+const photosN7 = [
+  {
+    src: 'https://cdn.prod.website-files.com/67a9fca34d150f14e73d9ba7/67b47c9509b063ec3f6e953b_journee_intervenant_je%20(7)_2_11zon.avif',
+    alt: "Étudiants ingénieurs lors d'une journée intervenants N7 Consulting",
+  },
+  {
+    src: 'https://cdn.prod.website-files.com/67a9fca34d150f14e73d9ba7/67b330cc542f1a73c558375f_Raph_concentre.avif',
+    alt: 'Étudiant ingénieur de N7 Consulting travaillant sur une étude',
+  },
+  {
+    src: 'https://cdn.prod.website-files.com/67a9fca34d150f14e73d9ba7/67b47c90b7e1481582208392_journee_intervenant_je%20(78)_3_11zon.avif',
+    alt: 'Journée intervenant informatique junior entreprise',
+  },
+  {
+    src: 'https://cdn.prod.website-files.com/67a9fca34d150f14e73d9ba7/67b47c92c96ca901a03cd600_PC_Stickers_6_11zon.avif',
+    alt: 'Intervenant informatique',
+  },
+  {
+    src: 'https://cdn.prod.website-files.com/67a9fca34d150f14e73d9ba7/67b47c8f0a38e41d18e4b7cd_3EA_Centrale_1_11zon.avif',
+    alt: 'Panneaux solaires, projet d’éco-ingénierie',
+  },
+  {
+    src: 'https://cdn.prod.website-files.com/67a9fca34d150f14e73d9ba7/67b47c8f0a38e41d18e4b7ed_MembreJE_PC_4_11zon.avif',
+    alt: 'Membre de N7 Consulting travaillant sur un ordinateur',
+  },
+];
+
+// On ne garde que les 3 articles les plus récents.
+const derniersArticles = (await articlesTries()).slice(0, 3);
+---
+
+<Layout
+  titre="N7 Consulting – Junior-Entreprise de l'ENSEEIHT à Toulouse"
+  description="Junior-Entreprise de l'ENSEEIHT depuis 1977 : nos étudiants ingénieurs réalisent vos projets digital, ingénierie et éco-ingénierie à Toulouse."
+>
+  <Hero
+    titre="L’innovation étudiante au cœur de vos projets"
+    sousTitre="Parce que chaque projet mérite une approche innovante, N7 Consulting, la Junior-Entreprise de l’ENSEEIHT à Toulouse, met à votre disposition l’expertise et le dynamisme de ses étudiants ingénieurs."
+  >
+    <a class="bouton bouton--clair" href="/contact">Demander un devis</a>
+  </Hero>
+
+  <section class="chiffres">
+    <div class="conteneur chiffres__grille">
+      {
+        chiffres.map((c) => (
+          <div class="chiffre">
+            <strong>{c.valeur}</strong>
+            <span>{c.legende}</span>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section explorateur">
+    <div class="conteneur">
+      <div class="nuage">
+        <div class="nuage__contenu">
+          <a class="nuage__lien nuage__lien--images" href="#galerie-images">
+            N7 Consulting en images
+          </a>
+          <div class="nuage__roulette"><PoleRoulette /></div>
+          <a class="nuage__lien nuage__lien--videos" href="#videos">
+            N7 Consulting en vidéo
+          </a>
+          <a class="nuage__lien nuage__lien--actualites" href="#actualites">
+            Les actualités
+          </a>
+          <a class="nuage__lien nuage__lien--confiance" href="#temoignages">
+            Ils nous font confiance
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt contenu-explorateur" id="temoignages">
+    <div class="conteneur">
+      <h2 class="section__titre">Ils nous font confiance</h2>
+      <p class="section__intro">Découvrez pourquoi !</p>
+      <div class="grille">
+        {
+          temoignages.map((t) => (
+            <figure class="temoignage">
+              <blockquote>« {t.texte} »</blockquote>
+              <figcaption>
+                <img src={t.photo} alt={t.alt} width="56" height="56" loading="lazy" />
+                <span>
+                  <strong>{t.nom}</strong>
+                  <br />
+                  {t.poste}
+                </span>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section section--alt contenu-explorateur" id="videos">
+    <div class="conteneur">
+      <h2 class="section__titre">N7 Consulting en vidéo</h2>
+      <p class="section__intro">Découvrez notre présentation sur YouTube et Dailymotion.</p>
+      <div class="grille videos">
+        {videos.map((video) => (
+          <a
+            class="video"
+            href={video.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Voir « ${video.titre} » sur ${video.plateforme} (nouvel onglet)`}
+          >
+            <span class="video__miniature">
+              <img src={video.miniature} alt="" loading="lazy" />
+              <span class="video__lecture" aria-hidden="true">▶</span>
+            </span>
+            <span class="video__titre">{video.titre}</span>
+            <span class="video__plateforme">Voir sur {video.plateforme}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section contenu-explorateur" id="galerie-images">
+    <div class="conteneur">
+      <h2 class="section__titre">N7 Consulting en images</h2>
+      <p class="section__intro">Les étudiants ingénieurs à l’œuvre au sein de notre Junior-Entreprise.</p>
+      <div class="galerie">
+        {photosN7.map((photo) => <img src={photo.src} alt={photo.alt} loading="lazy" />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section contenu-explorateur" id="actualites">
+    <div class="conteneur">
+      <h2 class="section__titre">Dernières actualités</h2>
+      <p class="section__intro">
+        Études réalisées, événements et vie de la Junior : suivez ce qui se passe chez N7
+        Consulting.
+      </p>
+      <div class="grille">
+        {derniersArticles.map((article) => <ArticleCard article={article} />)}
+      </div>
+      <p class="centre">
+        <a class="bouton bouton--jaune" href="/actualites">Toutes les actualités →</a>
+      </p>
+    </div>
+  </section>
+
+  <CtaBandeau />
+</Layout>
+
+<style>
+  .explorateur {
+    overflow: hidden;
+  }
+
+  .nuage {
+    position: relative;
+    isolation: isolate;
+    padding: 3rem 2.5rem;
+    background: #facc15;
+    border: 1px solid #eab308;
+    border-radius: 48% 52% 45% 55% / 35% 38% 62% 65%;
+    box-shadow: 0 18px 45px rgba(145, 105, 0, 0.16);
+  }
+
+  .nuage__contenu {
+    display: grid;
+    min-height: 34rem;
+    grid-template-columns: minmax(10rem, 1fr) minmax(24rem, 26rem) minmax(10rem, 1fr);
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+      'images roulette videos'
+      'actualites roulette confiance';
+    align-items: center;
+    justify-items: center;
+    gap: 1rem;
+  }
+
+  .nuage__roulette {
+    grid-area: roulette;
+    width: 100%;
+  }
+
+  .nuage__lien {
+    display: grid;
+    width: min(100%, 12rem);
+    min-height: 5rem;
+    place-items: center;
+    padding: 1rem;
+    color: var(--bleu-nuit);
+    background: #fffdf2;
+    border: 2px solid rgba(10, 31, 68, 0.18);
+    border-radius: 1.25rem;
+    box-shadow: 0 8px 18px rgba(80, 60, 0, 0.13);
+    font-weight: 750;
+    line-height: 1.3;
+    text-align: center;
+    text-decoration: none;
+    transition:
+      transform 180ms ease,
+      box-shadow 180ms ease,
+      background-color 180ms ease;
+  }
+
+  .nuage__lien:hover,
+  .nuage__lien:focus-visible {
+    background: #fff;
+    box-shadow: 0 12px 24px rgba(80, 60, 0, 0.2);
+    transform: translateY(-4px) rotate(-2deg);
+  }
+
+  .nuage__lien--images {
+    grid-area: images;
+  }
+
+  .nuage__lien--videos {
+    grid-area: videos;
+  }
+
+  .nuage__lien--actualites {
+    grid-area: actualites;
+  }
+
+  .nuage__lien--confiance {
+    grid-area: confiance;
+  }
+
+  #temoignages,
+  #videos,
+  #galerie-images,
+  #actualites {
+    scroll-margin-top: 5.5rem;
+  }
+
+  .contenu-explorateur {
+    display: none;
+  }
+
+  .contenu-explorateur:target {
+    display: block;
+  }
+
+  .chiffres {
+    background: var(--bleu-pale);
+    border-bottom: 1px solid var(--couleur-bordure);
+  }
+
+  .chiffres__grille {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 1.5rem;
+    padding: 2.5rem 0;
+    text-align: center;
+  }
+
+  .chiffre strong {
+    display: block;
+    font-size: 2.4rem;
+    color: var(--bleu);
+    line-height: 1.1;
+  }
+
+  .chiffre span {
+    color: var(--couleur-texte-doux);
+    font-size: 0.95rem;
+  }
+
+  .temoignage {
+    margin: 0;
+    background: var(--couleur-fond);
+    border-radius: var(--rayon);
+    padding: 1.75rem;
+    border: 1px solid var(--couleur-bordure);
+  }
+
+  .temoignage blockquote {
+    margin: 0 0 1.25rem;
+    font-style: italic;
+  }
+
+  .temoignage figcaption {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.95rem;
+    color: var(--couleur-texte-doux);
+  }
+
+  .temoignage img {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .galerie {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+
+  .galerie img {
+    display: block;
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+    border-radius: var(--rayon);
+  }
+
+  .video {
+    overflow: hidden;
+    color: inherit;
+    text-decoration: none;
+    background: var(--couleur-fond);
+    border: 1px solid var(--couleur-bordure);
+    border-radius: var(--rayon);
+    transition:
+      transform 0.2s,
+      box-shadow 0.2s;
+  }
+
+  .video:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(10, 31, 68, 0.12);
+  }
+
+  .video__miniature {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 9;
+    background: var(--bleu-nuit);
+  }
+
+  .video__miniature img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .video__lecture {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: grid;
+    width: 3.5rem;
+    height: 3.5rem;
+    place-items: center;
+    padding-left: 0.2rem;
+    color: var(--jaune);
+    background: rgba(10, 31, 68, 0.82);
+    border: 2px solid var(--jaune);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .video__titre,
+  .video__plateforme {
+    display: block;
+    padding-inline: 1.25rem;
+  }
+
+  .video__titre {
+    padding-top: 1rem;
+    font-weight: 700;
+  }
+
+  .video__plateforme {
+    padding-bottom: 1.25rem;
+    color: var(--couleur-texte-doux);
+    font-size: 0.9rem;
+  }
+
+  .centre {
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  @media (max-width: 900px) {
+    .nuage {
+      padding: 2rem 1.25rem;
+      border-radius: 3rem;
+    }
+
+    .nuage__contenu {
+      min-height: auto;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto auto;
+      grid-template-areas:
+        'images videos'
+        'roulette roulette'
+        'actualites confiance';
+      gap: 1.25rem;
+    }
+
+    .nuage__roulette {
+      max-width: 28rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .nuage {
+      padding: 1.5rem 1rem;
+    }
+
+    .nuage__contenu {
+      gap: 0.75rem;
+    }
+
+    .nuage__lien {
+      min-height: 4.25rem;
+      padding: 0.65rem;
+      font-size: 0.9rem;
+    }
+  }
+</style>

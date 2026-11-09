@@ -1,0 +1,135 @@
+---
+// PAGE DYNAMIQUE : src/pages/actualites/[slug].astro  →  "/actualites/nom-de-l-article"
+// Les crochets [slug] signifient : "une page par article". Astro lit la liste dans
+// getStaticPaths() et fabrique une page pour chaque fichier .md de la collection.
+// Le nom du fichier .md devient l'adresse de l'article.
+
+import { render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import CtaBandeau from '../../components/CtaBandeau.astro';
+import { articlesTries } from '../../data/articles';
+
+export async function getStaticPaths() {
+  const articles = await articlesTries();
+  return articles.map((article) => ({
+    params: { slug: article.id },
+    props: { article, autres: articles.filter((a) => a.id !== article.id).slice(0, 2) },
+  }));
+}
+
+const { article, autres } = Astro.props;
+const { titre, titreSeo, description, resume, categorie, date, image, imageAlt } = article.data;
+
+// "Content" est le texte Markdown de l'article, transformé en HTML.
+const { Content } = await render(article);
+
+const dateLisible = date.toLocaleDateString('fr-FR', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+---
+
+<Layout titre={titreSeo} description={description}>
+  <article class="section">
+    <div class="conteneur texte">
+      <p>
+        <a
+          class="bouton bouton--jaune"
+          href="/actualites"
+          data-retour-provenance
+        >← Retour à la page précédente</a>
+      </p>
+      <p class="meta">
+        <span class="categorie">{categorie}</span>
+        <time datetime={date.toISOString().slice(0, 10)}>{dateLisible}</time>
+      </p>
+      <h1>{titre}</h1>
+      <p class="resume">{resume}</p>
+      {image && <img class="image-couverture" src={image} alt={imageAlt ?? titre} fetchpriority="high" />}
+
+      <div class="corps">
+        <Content />
+      </div>
+    </div>
+  </article>
+
+  <section class="section section--alt">
+    <div class="conteneur">
+      <h2 class="section__titre">Cet article vous a plu ?</h2>
+      <p class="section__intro">Découvrez d'autres articles</p>
+      <div class="grille">
+        {autres.map((a) => <ArticleCard article={a} />)}
+      </div>
+    </div>
+  </section>
+
+  <CtaBandeau />
+</Layout>
+
+<script>
+  const lienRetour = document.querySelector<HTMLAnchorElement>('[data-retour-provenance]');
+
+  lienRetour?.addEventListener('click', (event) => {
+    const provenance = document.referrer ? new URL(document.referrer) : null;
+    if (provenance?.origin !== window.location.origin) return;
+
+    event.preventDefault();
+    window.history.back();
+  });
+</script>
+
+<style>
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.9rem;
+    align-items: center;
+    font-size: 0.9rem;
+    color: var(--couleur-texte-doux);
+    margin-bottom: 0.75rem;
+  }
+
+  .categorie {
+    background: var(--bleu-pale);
+    color: var(--bleu-fonce);
+    font-weight: 600;
+    padding: 0.15rem 0.7rem;
+    border-radius: 999px;
+  }
+
+  .resume {
+    font-size: 1.15rem;
+    color: var(--couleur-texte-doux);
+    margin-bottom: 2rem;
+  }
+
+  .image-couverture {
+    display: block;
+    width: 100%;
+    max-height: 34rem;
+    margin: 0 0 2.5rem;
+    object-fit: cover;
+    border-radius: var(--rayon);
+  }
+
+  /* Le Markdown est converti après coup : on cible son contenu avec :global(). */
+  .corps :global(h2) {
+    margin-top: 2.2rem;
+  }
+
+  .corps :global(h3) {
+    margin-top: 1.8rem;
+  }
+
+  .corps :global(ul),
+  .corps :global(ol) {
+    padding-left: 1.3rem;
+  }
+
+  .corps :global(li) {
+    margin-bottom: 0.5rem;
+  }
+</style>

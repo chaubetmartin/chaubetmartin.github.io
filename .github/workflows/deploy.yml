@@ -1,0 +1,41 @@
+# Publication automatique du site sur GitHub Pages.
+# À chaque envoi (push) sur la branche "main", GitHub construit le site (npm install + npm run build)
+# puis publie le dossier "dist". Ce fichier doit se trouver à cet emplacement exact du dépôt :
+#   .github/workflows/deploy.yml
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # Permet aussi de lancer la publication à la main depuis l'onglet "Actions".
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+      - name: Installer, construire et préparer le site
+        uses: withastro/action@v3
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publier sur GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

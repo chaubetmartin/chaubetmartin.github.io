@@ -1,0 +1,496 @@
+---
+// PAGE : src/pages/qui-sommes-nous.astro  →  adresse "/qui-sommes-nous"
+// L'équipe vient de src/data/equipe.ts ; l'historique est défini juste ci-dessous.
+
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import CtaBandeau from '../components/CtaBandeau.astro';
+import { equipe } from '../data/equipe';
+
+const avantages = [
+  {
+    titre: 'Des compétences immédiatement mobilisables',
+    texte:
+      'Nous mettons à votre disposition des étudiants formés aux dernières innovations technologiques et aux méthodologies actuelles, capables de répondre efficacement à vos problématiques opérationnelles.',
+  },
+  {
+    titre: 'Un fonctionnement professionnel et flexible',
+    texte:
+      'Notre Junior-Entreprise adopte un fonctionnement similaire à celui d’un cabinet de conseil : un interlocuteur unique, une gestion de projet cadrée et des livrables de qualité, dans le respect de vos délais et exigences.',
+  },
+  {
+    titre: 'Un savoir-faire technique à forte valeur ajoutée et à coût maîtrisé',
+    texte:
+      'Profitez d’un savoir-faire technique de qualité à un tarif avantageux, adapté à vos contraintes budgétaires, sans compromis sur la qualité.',
+  },
+];
+
+const valeurs = ['Engagement', 'Responsabilité', 'Innovation'];
+
+const photosJunior = [
+  {
+    src: 'https://cdn.prod.website-files.com/67a9fca34d150f14e73d9ba7/67b47c8f28387bca819ef6c0_N7C_CRPSO2024_5_11zon.avif',
+    alt: 'Équipe de N7 Consulting lors du CRP',
+  },
+  {
+    src: 'https://cdn.prod.website-files.com/67a9fca34d150f14e73d9ba7/67db33a0013b1f261a648bdb_groupes_je-4-min.jpg',
+    alt: 'Photo de groupe de la Junior-Entreprise',
+  },
+  {
+    src: 'https://cdn.prod.website-files.com/67a9fca34d150f14e73d9ba7/67bdba0d63dbef114fbc6f39_flag_photo.webp',
+    alt: 'Drapeau N7 Consulting sur les quais de la Garonne à Toulouse',
+  },
+];
+
+const engagements = [
+  {
+    src: 'https://cdn.prod.website-files.com/67a9fca34d150f14e73d9ba7/67a9fe17a0c7605fa5e24334_N7C_Intervenants.png',
+    alt: 'N7 Consulting Intervenants',
+  },
+  {
+    src: 'https://cdn.prod.website-files.com/67a9fca34d150f14e73d9ba7/67d8a20d71ad3d284a9bc8c5_LogoN7.png',
+    alt: 'Toulouse INP - ENSEEIHT',
+  },
+  {
+    src: 'https://cdn.prod.website-files.com/67a9fca34d150f14e73d9ba7/6823c641c3f19a7f6f5f2925_logo-afnor-site_blanc.png',
+    alt: 'Certification ISO 9001',
+  },
+];
+
+// L'historique, de la création à aujourd'hui (du plus récent au plus ancien).
+const histoire = [
+  {
+    annee: '2026',
+    id: 'frise-aujourdhui',
+    faits: ['Mandat 49 : préparation du mandat 50 et des 50 ans de N7 Consulting'],
+  },
+  {
+    annee: '2024',
+    faits: [
+      'Finaliste du prix du Meilleur Accompagnement Commercial',
+      'Finaliste du prix de la Meilleure Étude en Ingénierie',
+      'Se positionne dans le Top 30 depuis plus de 10 ans',
+    ],
+  },
+  {
+    annee: '2023',
+    faits: [
+      'Finaliste du prix de la Meilleure Étude en Ingénierie',
+      "Finaliste du prix du Meilleur Partenaire de l'Enseignement Supérieur",
+      'Gagnant du prix du Meilleur Accompagnement Intervenants',
+      'Entrée en Top 6',
+      'Appel à projet RSE',
+    ],
+  },
+  {
+    annee: '2022',
+    faits: [
+      'Obtention de la norme ISO 9001',
+      'Entrée en Top 3',
+      "Finaliste du prix d'Excellence",
+      'Gagnant du prix de la Meilleure Étude en Ingénierie',
+      'Second Lauréat du prix de la meilleure data-visualisation',
+    ],
+  },
+  {
+    annee: '2021',
+    faits: [
+      'Finaliste du prix de la Meilleure Étude en Ingénierie',
+      'Finaliste du prix de la Meilleure Approche Commerciale',
+    ],
+  },
+  { annee: '2019', faits: ["Appel d'offre publique à +100k€ signé avec le CNES"] },
+  { annee: '2013', faits: ['Entrée dans le Top 30'] },
+  { annee: '2012', faits: ['Prix du Meilleur Partenariat'] },
+  { annee: '2010', faits: ['Prix du Meilleur Espoir'] },
+  { annee: '1977', faits: ['Création de N7 Consulting'] },
+];
+---
+
+<Layout
+  titre="À propos – N7 Consulting, Junior-Entreprise depuis 1977"
+  description="Depuis 1977, N7 Consulting met les étudiants ingénieurs de Toulouse INP-ENSEEIHT au service des entreprises. Découvrez l'équipe et nos valeurs."
+>
+  <Hero
+    titre="Notre mission"
+    sousTitre="N7 Consulting est une Junior-Entreprise engagée à mettre en avant le savoir-faire technique de nos étudiants. Notre mission est de fournir des solutions innovantes aux entreprises dans les domaines du digital, de l'ingénierie et de l'éco-ingénierie."
+  >
+    <a class="bouton bouton--clair" href="/contact">Nous contacter</a>
+  </Hero>
+
+  <section class="section">
+    <div class="conteneur texte">
+      <h2>Comprendre le fonctionnement d'une Junior-Entreprise</h2>
+      <p>
+        Une Junior-Entreprise est une structure associative à vocation économique, gérée par des
+        étudiants d’une grande école. Elle permet aux entreprises de bénéficier de prestations sur
+        mesure, leur permettant de bénéficier de compétences techniques et méthodologiques
+        pointues, issues des enseignements les plus récents, au service de leurs projets.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="conteneur">
+      <h2 class="section__titre">Pourquoi collaborer avec notre Junior-Entreprise ?</h2>
+      <div class="grille">
+        {
+          avantages.map((a) => (
+            <article class="bloc">
+              <h3>{a.titre}</h3>
+              <p>{a.texte}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="conteneur">
+      <h2 class="section__titre">Notre équipe</h2>
+      <p class="section__intro">Rencontrez les membres de notre équipe dynamique.</p>
+      <ul class="equipe">
+        {
+          equipe.map((membre) => (
+            <li>
+              <a
+                class="equipe__photo"
+                href={membre.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Voir le profil LinkedIn de ${membre.prenom} ${membre.nom} (nouvel onglet)`}
+              >
+                <img src={membre.photo} alt={`Portrait de ${membre.prenom} ${membre.nom}`} loading="lazy" />
+                <span class="equipe__linkedin" aria-hidden="true">in</span>
+              </a>
+              <strong>
+                {membre.prenom} {membre.nom}
+              </strong>
+              <span>{membre.role}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="conteneur">
+      <h2 class="section__titre">La vie de la Junior-Entreprise</h2>
+      <div class="galerie-junior">
+        {photosJunior.map((photo) => <img src={photo.src} alt={photo.alt} loading="lazy" />)}
+      </div>
+      <h3 class="engagements__titre">Nos engagements et notre écosystème</h3>
+      <div class="engagements">
+        {engagements.map((engagement) => <img src={engagement.src} alt={engagement.alt} loading="lazy" />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sombre">
+    <div class="conteneur">
+      <h2 class="section__titre">Nos valeurs</h2>
+      <ul class="valeurs">
+        {valeurs.map((v) => <li>{v}</li>)}
+      </ul>
+      <h3 class="centre">Notre raison d'être</h3>
+      <blockquote class="raison">
+        « Incarner l'innovation et l'engagement avec responsabilité pour proposer des projets
+        impactants et porteurs de sens à notre écosystème et à nos clients. »
+      </blockquote>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="conteneur texte">
+      <h2>Notre environnement</h2>
+
+      <h3>Nos intervenants</h3>
+      <p>
+        Les intervenants chez N7 Consulting sont des étudiants talentueux et motivés qui sont
+        essentiels au fonctionnement de notre Junior-Entreprise. Ils représentent une ressource
+        précieuse pour les entreprises qui cherchent à mettre en œuvre des projets innovants et à
+        obtenir des résultats concrets.
+      </p>
+      <p>
+        Les intervenants sont sélectionnés pour leur motivation et leurs compétences, garantissant
+        ainsi une qualité de travail à nos clients. Ils sont également habitués à travailler en
+        équipe et à résoudre des problèmes complexes, ce qui leur permet de s’adapter rapidement à
+        de nouveaux défis.
+      </p>
+      <p>
+        En choisissant N7 Consulting, les entreprises peuvent bénéficier de la créativité, de
+        l’innovation et du savoir-faire technique de nos intervenants. Grâce à leur engagement
+        envers la réussite de chaque projet, nos intervenants offrent une valeur ajoutée à chaque
+        entreprise avec laquelle nous travaillons.
+      </p>
+
+      <h3>Nos alumnis</h3>
+      <p>
+        Les alumni, anciens administrateurs de la Junior-Entreprise, représentent un appui
+        stratégique fort pour le mandat en exercice. Leur implication dans la vie active, relative
+        aux domaines de spécialité de la J.E. contribue à la professionnalisation de la structure.
+      </p>
+      <p>
+        Au sein de N7 Consulting, ce sont 49 années d’expérience qui sont transmises à chaque
+        passation et qui permettent de bâtir une stratégie toujours plus performante. En effet, au
+        travers de différentes formations, événements et COS (Conseil d’Orientation Stratégique),
+        les alumni conseillent les administrateurs et participent à la vie de la Junior. Enfin,
+        c’est en générant de potentielles études que les alumni s’inscrivent définitivement dans la
+        grande famille N7 Consulting.
+      </p>
+
+      <h3>L'ENSEEIHT</h3>
+      <p>
+        Fondée en 1907 pour déployer ses ingénieurs sur les barrages français, l’ENSEEIHT a
+        toujours su garder un temps d’avance dans l’innovation pour répondre aux enjeux de son
+        temps. Aujourd’hui l’N7 reste à la pointe sur les dernières technologies puisqu’elle
+        rassemble plus de 150 enseignant-chercheurs répartis dans 4 laboratoires toulousains :
+        l’IMFT, l’IRIT, le LAAS et le LAPLACE.
+      </p>
+      <p>
+        Les étudiants de l’ENSEEIHT font le pari de se spécialiser dans des filières d’excellence
+        pour développer leur expertise technique dans les domaines suivants :
+      </p>
+      <ul>
+        <li>Électronique, Énergie Électrique et Automatique (3EA)</li>
+        <li>Sciences du Numérique (SN)</li>
+        <li>Mécanique des Fluides, Énergie et Environnement (MFEE)</li>
+      </ul>
+      <p>
+        C'est à travers ces fortes spécialisations que les 1500 étudiants-ingénieurs de
+        l’ENSEEIHT tirent leur haut niveau de technicité que l’on retrouve chez N7 Consulting.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="conteneur texte">
+      <h2>Voici notre histoire</h2>
+      <a
+        class="frise-aujourdhui"
+        href="/actualites/mandat-49-cap-sur-le-mandat-50-et-les-50-ans"
+      >
+        Où en sommes-nous aujourd’hui ?
+      </a>
+      <ol class="histoire">
+        {
+          histoire.map((periode) => (
+            <li id={periode.id}>
+              <span class="histoire__annee">{periode.annee}</span>
+              <ul>
+                {periode.faits.map((fait) => (
+                  <li>{fait}</li>
+                ))}
+              </ul>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <CtaBandeau />
+</Layout>
+
+<style>
+  .bloc {
+    background: var(--couleur-fond);
+    border: 1px solid var(--couleur-bordure);
+    border-radius: var(--rayon);
+    padding: 1.75rem;
+  }
+
+  .bloc p {
+    margin: 0;
+    color: var(--couleur-texte-doux);
+  }
+
+  .equipe {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 1rem;
+  }
+
+  .equipe li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--couleur-bordure);
+    border-left: 4px solid var(--bleu);
+    border-radius: 10px;
+  }
+
+  .equipe img {
+    width: 100%;
+    height: 210px;
+    object-fit: cover;
+    object-position: center 30%;
+    border-radius: 8px;
+  }
+
+  .equipe__photo {
+    position: relative;
+    display: block;
+    margin-bottom: 0.8rem;
+    border-radius: 8px;
+  }
+
+  .equipe__linkedin {
+    position: absolute;
+    right: 0.6rem;
+    bottom: 0.6rem;
+    display: grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    color: #fff;
+    background: #0a66c2;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .equipe span {
+    color: var(--couleur-texte-doux);
+    font-size: 0.92rem;
+  }
+
+  .valeurs {
+    list-style: none;
+    margin: 0 0 2.5rem;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .valeurs li {
+    padding: 0.7rem 1.6rem;
+    border: 1px solid rgba(250, 204, 21, 0.55);
+    border-radius: 999px;
+    font-weight: 600;
+    color: var(--jaune);
+  }
+
+  .centre {
+    text-align: center;
+  }
+
+  .raison {
+    max-width: 44rem;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--jaune);
+  }
+
+  .histoire {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 1.5rem;
+    border-left: 3px solid var(--bleu);
+  }
+
+  .frise-aujourdhui {
+    display: grid;
+    width: 10rem;
+    min-height: 10rem;
+    place-items: center;
+    margin: 0 0 1.5rem 1.5rem;
+    padding: 1rem;
+    color: var(--bleu-nuit);
+    background: #facc15;
+    border: 2px solid #eab308;
+    border-radius: 0.5rem;
+    font-weight: 800;
+    line-height: 1.3;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(10, 31, 68, 0.12);
+  }
+
+  .frise-aujourdhui:hover {
+    background: #fde047;
+    transform: translateY(-2px);
+  }
+
+  #frise-aujourdhui {
+    scroll-margin-top: 6rem;
+  }
+
+  .histoire > li {
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
+
+  .histoire > li::before {
+    content: '';
+    position: absolute;
+    left: calc(-1.5rem - 8px);
+    top: 0.45rem;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: var(--bleu);
+  }
+
+  .histoire__annee {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--bleu-nuit);
+  }
+
+  .histoire ul {
+    margin: 0.3rem 0 0;
+    padding-left: 1.1rem;
+  }
+
+  .galerie-junior {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+
+  .galerie-junior img {
+    display: block;
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    border-radius: var(--rayon);
+  }
+
+  .engagements__titre {
+    margin-top: 3rem;
+    text-align: center;
+    color: var(--jaune);
+    background: var(--bleu-nuit);
+    padding: 1.25rem 1rem 0;
+    border-radius: var(--rayon) var(--rayon) 0 0;
+  }
+
+  .engagements {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding: 1.5rem;
+    background: var(--bleu-nuit);
+    border-radius: 0 0 var(--rayon) var(--rayon);
+  }
+
+  .engagements img {
+    max-width: min(100%, 12rem);
+    max-height: 5rem;
+    object-fit: contain;
+  }
+</style>

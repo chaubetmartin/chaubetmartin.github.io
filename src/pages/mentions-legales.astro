@@ -1,0 +1,83 @@
+---
+// PAGE : src/pages/mentions-legales.astro  →  adresse "/mentions-legales"
+// Les informations de l'éditeur viennent de src/data/site.ts.
+// ⚠ Pensez à y mettre à jour l'hébergeur (c'était Webflow sur l'ancien site).
+
+import Layout from '../layouts/Layout.astro';
+import { site } from '../data/site';
+---
+
+<Layout
+  titre="Mentions légales – N7 Consulting"
+  description="Mentions légales et politique de confidentialité du site de N7 Consulting, Junior-Entreprise de Toulouse INP-ENSEEIHT."
+>
+  <section class="section">
+    <div class="conteneur texte">
+      <h1>Mentions légales</h1>
+
+      <h2>Éditeur du site</h2>
+      <ul>
+        <li>Nom de l’entreprise : N7Consulting</li>
+        <li>Forme juridique : Association</li>
+        <li>Adresse : {site.adresse}</li>
+        <li>E-mail : <a href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li>N° SIRET : {site.siret}</li>
+        <li>Directeur de la publication : DSI du mandat en cours</li>
+      </ul>
+
+      <h2>Hébergeur du site</h2>
+      <p>Nom : {site.hebergeur}</p>
+
+      <h2>Conditions générales d'utilisation</h2>
+      <p>
+        L’utilisation du site www.n7consulting.fr implique l’acceptation pleine et entière des
+        présentes conditions générales d’utilisation. Le site a pour objet de proposer des demandes
+        de devis. Aucune vente directe n’est réalisée en ligne. L’utilisateur s’engage à fournir
+        des informations exactes dans les formulaires et à ne pas utiliser le site à des fins
+        frauduleuses.
+      </p>
+
+      <h2>Politique de confidentialité</h2>
+      <p>
+        Conformément au Règlement Général sur la Protection des Données (RGPD), nous nous engageons
+        à protéger vos données personnelles.
+      </p>
+
+      <h3>Données collectées</h3>
+      <p>
+        Les données que vous nous fournissez via les formulaires de contact ou de demande de devis
+        (nom, prénom, adresse email, numéro de téléphone, etc.) sont uniquement utilisées pour
+        traiter votre demande.
+      </p>
+
+      <h3>Finalité</h3>
+      <p>Vos données sont utilisées uniquement pour :</p>
+      <ul>
+        <li>répondre à vos demandes</li>
+        <li>vous envoyer un devis</li>
+        <li>assurer un suivi de la relation commerciale</li>
+      </ul>
+
+      <h3>Destinataires</h3>
+      <p>
+        Les données ne sont transmises à aucun tiers sans votre consentement, sauf obligation
+        légale.
+      </p>
+
+      <h3>Droits</h3>
+      <p>Conformément à la législation en vigueur, vous disposez des droits suivants :</p>
+      <ul>
+        <li>droit d’accès</li>
+        <li>droit de rectification</li>
+        <li>droit à l’effacement</li>
+        <li>droit à la limitation du traitement</li>
+        <li>droit d’opposition</li>
+        <li>droit à la portabilité</li>
+      </ul>
+      <p>
+        Pour exercer ces droits, vous pouvez nous contacter à l’adresse suivante :
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+      </p>
+    </div>
+  </section>
+</Layout>

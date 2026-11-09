@@ -1,0 +1,224 @@
+/*
+  STYLES GLOBAUX
+  Importé une seule fois dans src/layouts/Layout.astro : il s'applique à toutes les pages.
+  Les variables CSS (--bleu, --bleu-nuit...) permettent de changer la charte graphique
+  du site entier en modifiant seulement quelques valeurs ci-dessous.
+*/
+
+:root {
+  --bleu-nuit: #0a1f44;
+  --bleu: #2563eb;
+  --bleu-fonce: #1d4ed8;
+  --bleu-pale: #eef3ff;
+
+  /* Jaune des textes écrits sur fond bleu (même teinte que l'en-tête et le pied de page). */
+  --jaune: #facc15;
+  --jaune-clair: #fde68a;
+
+  --couleur-fond: #ffffff;
+  --couleur-texte: #1b2333;
+  --couleur-texte-doux: #566078;
+  --couleur-bordure: #dde3f0;
+
+  --police: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --largeur-max: 1160px;
+  --rayon: 14px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  font-family: var(--police);
+  color: var(--couleur-texte);
+  background: linear-gradient(135deg, #0a1f44 0%, #174ba8 42%, #facc15 100%) fixed;
+  line-height: 1.65;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+  margin: 0 0 0.6em;
+  color: var(--bleu-nuit);
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 3.1rem);
+}
+
+h2 {
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+}
+
+h3 {
+  font-size: 1.2rem;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+a {
+  color: var(--bleu);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Conteneur centré, utilisé dans toutes les sections. */
+.conteneur {
+  width: min(100% - 2rem, var(--largeur-max));
+  margin-inline: auto;
+}
+
+/* Un bloc vertical de la page. */
+.section {
+  padding: 4.5rem 0;
+  background-color: rgba(255, 255, 255, 0.58);
+}
+
+.section--alt {
+  background-color: rgba(238, 243, 255, 0.68);
+}
+
+.section--sombre {
+  background-color: var(--bleu-nuit);
+  color: var(--jaune-clair);
+}
+
+.section--sombre h2,
+.section--sombre h3 {
+  color: var(--jaune);
+}
+
+.section--sombre a:not(.bouton) {
+  color: var(--jaune);
+}
+
+.section__titre {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.section__intro {
+  max-width: 48rem;
+  margin: 0 auto 2.5rem;
+  text-align: center;
+  color: var(--couleur-texte-doux);
+}
+
+.section--sombre .section__intro {
+  color: var(--jaune-clair);
+}
+
+/* Grille de cartes qui s'adapte à la largeur de l'écran. */
+.grille {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Boutons */
+.bouton {
+  display: inline-block;
+  padding: 0.8rem 1.6rem;
+  border-radius: 999px;
+  background: #1e40af;
+  color: var(--jaune);
+  font-weight: 600;
+  text-decoration: none;
+  border: 2px solid #1e40af;
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: inherit;
+  transition:
+    background 0.2s,
+    color 0.2s;
+}
+
+.bouton:hover {
+  background: #1e3a8a;
+  border-color: #1e3a8a;
+}
+
+.bouton--contour {
+  background: transparent;
+  color: var(--bleu);
+}
+
+.bouton--contour:hover {
+  background: #1e40af;
+  border-color: #1e40af;
+  color: var(--jaune);
+}
+
+.bouton--jaune {
+  color: var(--bleu-nuit);
+  background: #facc15;
+  border-color: #eab308;
+  border-radius: 6px;
+  box-shadow: 0 3px 8px rgba(10, 31, 68, 0.12);
+}
+
+.bouton--jaune:hover {
+  color: var(--bleu-nuit);
+  background: #fde047;
+  border-color: #ca8a04;
+}
+
+.bouton--clair {
+  background: #fff;
+  color: var(--bleu-nuit);
+  border-color: #fff;
+}
+
+.bouton--clair:hover {
+  background: var(--bleu-pale);
+  border-color: var(--bleu-pale);
+}
+
+.bouton--contour-clair {
+  background: transparent;
+  color: var(--jaune);
+  border-color: rgba(250, 204, 21, 0.7);
+}
+
+.bouton--contour-clair:hover {
+  background: rgba(250, 204, 21, 0.12);
+  border-color: var(--jaune);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.actions--centre {
+  justify-content: center;
+}
+
+/* Texte de lecture (pages de contenu) */
+.texte {
+  max-width: 46rem;
+}
+
+.texte ul {
+  padding-left: 1.2rem;
+}
+
+.texte li {
+  margin-bottom: 0.4rem;
+}

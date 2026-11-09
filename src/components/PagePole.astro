@@ -1,0 +1,202 @@
+---
+// COMPOSANT : Page complète d'un pôle (Digital & Data, Ingénierie, Éco-ingénierie).
+// Les trois pages utilisent ce même composant : seules les données changent
+// (elles se trouvent dans src/data/prestations.ts).
+// Pour modifier le texte d'un service, on modifie ce fichier de données, pas celui-ci.
+
+import Layout from '../layouts/Layout.astro';
+import Hero from './Hero.astro';
+import Methode from './Methode.astro';
+import CtaBandeau from './CtaBandeau.astro';
+import { site } from '../data/site';
+import type { Pole } from '../data/prestations';
+
+interface Props {
+  pole: Pole;
+}
+
+const { pole } = Astro.props;
+---
+
+<Layout titre={pole.titrePage} description={pole.description}>
+  <div class="retour-pole">
+    <div class="conteneur">
+      <a class="bouton bouton--jaune" href="/" aria-label="Retour à l’accueil">← Retour à l’accueil</a>
+    </div>
+  </div>
+
+  <Hero titre={pole.h1} sousTitre={pole.accroche}>
+    <a class="bouton bouton--clair" href="/contact">Demander un devis</a>
+    <a class="bouton bouton--contour-clair" href={site.brochure} target="_blank" rel="noopener">
+      Téléchargez notre plaquette
+    </a>
+  </Hero>
+
+  {
+    pole.sections.map((section, i) => (
+      <section class:list={['section', { 'section--alt': i % 2 === 1 }]}>
+        <div class="conteneur">
+          <h2 class="section__titre">{section.titre}</h2>
+          <p class="section__intro">{section.intro}</p>
+          <div class="grille">
+            {section.services.map((service) => (
+              <details class="service">
+                <summary class="carte__titre">{service.titre}</summary>
+                <div class="carte__contenu">
+                  <ul>
+                    {service.points.map((point) => (
+                      <li>{point}</li>
+                    ))}
+                  </ul>
+                  <div class="actions">
+                    <a class="bouton" href="/contact">Discutons de votre projet</a>
+                    <a class="bouton bouton--contour" href="#methode">Notre méthode</a>
+                  </div>
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  {
+    pole.realisations && (
+      <section class="section">
+        <div class="conteneur">
+          <h2 class="section__titre">Nos réalisations</h2>
+          <div class="grille">
+            {pole.realisations.map((r) => (
+              <details class="realisation">
+                <summary class="carte__titre">{r.client}</summary>
+                <div class="carte__contenu">
+                  <p>{r.texte}</p>
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <Methode />
+  <CtaBandeau />
+</Layout>
+
+<style>
+  .retour-pole {
+    padding: 0.75rem 0 0;
+    background: var(--bleu-nuit);
+  }
+
+  .retour-pole a {
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .retour-pole a:hover,
+  .retour-pole a:focus-visible {
+    text-decoration: underline;
+  }
+
+  .service,
+  .realisation {
+    background: var(--jaune);
+    border: 1px solid #eab308;
+    border-radius: var(--rayon);
+    padding: 1.25rem;
+    transition:
+      transform 0.2s,
+      box-shadow 0.2s;
+  }
+
+  .service:hover,
+  .realisation:hover {
+    box-shadow: 0 12px 28px rgba(10, 31, 68, 0.1);
+  }
+
+  .carte__titre {
+    display: grid;
+    width: min(100%, 12rem);
+    aspect-ratio: 1;
+    place-items: center;
+    margin-inline: auto;
+    padding: 1.25rem;
+    color: var(--jaune);
+    background: var(--bleu);
+    border: 3px solid var(--bleu-fonce);
+    border-radius: 50%;
+    font-weight: 700;
+    line-height: 1.3;
+    text-align: center;
+    cursor: pointer;
+    list-style: none;
+    transition:
+      background 0.2s,
+      transform 0.2s;
+  }
+
+  .carte__titre::-webkit-details-marker {
+    display: none;
+  }
+
+  .carte__titre::after {
+    content: '+';
+    display: block;
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+
+  details[open] > .carte__titre::after {
+    content: '−';
+  }
+
+  .carte__titre:hover {
+    background: var(--bleu-fonce);
+  }
+
+  .carte__titre:focus-visible {
+    outline: 3px solid var(--bleu-nuit);
+    outline-offset: 4px;
+  }
+
+  .carte__contenu {
+    padding: 1.5rem 0.5rem 0.5rem;
+    color: var(--bleu-nuit);
+  }
+
+  .carte__contenu ul {
+    margin: 0 0 1.5rem;
+    padding-left: 1.2rem;
+  }
+
+  .carte__contenu li {
+    margin-bottom: 0.5rem;
+  }
+
+  .service .actions .bouton {
+    padding: 0.6rem 1.1rem;
+    font-size: 0.92rem;
+  }
+
+  .carte__contenu p {
+    margin: 0;
+  }
+
+  @media (max-width: 480px) {
+    .carte__titre {
+      width: min(100%, 10rem);
+    }
+
+    .service .actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .service .actions .bouton {
+      text-align: center;
+    }
+  }
+</style>

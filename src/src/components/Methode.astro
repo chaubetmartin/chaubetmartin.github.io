@@ -1,0 +1,66 @@
+---
+// COMPOSANT : "Notre méthode en action" (les 3 étapes d'une étude).
+// Identique sur les trois pages de prestations : écrit une seule fois ici.
+// L'attribut id="methode" permet aux boutons "Notre méthode" de faire défiler la page jusqu'ici.
+
+const etapes = [
+  {
+    numero: '01',
+    titre: 'Cahier des charges',
+    texte:
+      'Après votre premier contact, nous planifions un rendez-vous pour analyser vos besoins et comprendre votre projet en profondeur. Nous vous proposons alors un devis adapté répondant précisément à votre projet. Ensuite, place au développement.',
+  },
+  {
+    numero: '02',
+    titre: 'Développement',
+    texte:
+      "Les étudiants sélectionnés (appelés intervenants) suivent rigoureusement le cahier des charges pour garantir la qualité de votre projet. Un chargé d'affaire dédié assure un suivi continu de l'avancement du projet à vos côtés. Fort de son expérience en gestion de projet, il anticipe les risques potentiels et veille à la bonne progression des travaux.",
+  },
+  {
+    numero: '03',
+    titre: 'Tests et Validation',
+    texte:
+      "Nous effectuons ensemble les tests et validations pour nous assurer que tout fonctionne parfaitement avant le lancement ! Pendant la période de garantie nous restons à votre disposition pour résoudre d'éventuels soucis.",
+  },
+];
+---
+
+<section id="methode" class="section section--sombre">
+  <div class="conteneur">
+    <h2 class="section__titre">Notre méthode en action</h2>
+    <div class="grille">
+      {
+        etapes.map((etape) => (
+          <article class="etape">
+            <span class="etape__numero">{etape.numero}</span>
+            <h3>{etape.titre}</h3>
+            <p>{etape.texte}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .etape {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: var(--rayon);
+    padding: 1.75rem;
+  }
+
+  .etape p {
+    margin: 0;
+    color: var(--jaune-clair);
+  }
+
+  .etape__numero {
+    display: block;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--jaune);
+    line-height: 1;
+    margin-bottom: 0.75rem;
+  }
+</style>

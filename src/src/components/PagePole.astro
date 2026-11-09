@@ -1,0 +1,154 @@
+---
+// COMPOSANT : Page complète d'un pôle (Digital & Data, Ingénierie, Éco-ingénierie).
+// Les trois pages utilisent ce même composant : seules les données changent
+// (elles se trouvent dans src/data/prestations.ts).
+// Pour modifier le texte d'un service, on modifie ce fichier de données, pas celui-ci.
+
+import Layout from '../layouts/Layout.astro';
+import Hero from './Hero.astro';
+import Methode from './Methode.astro';
+import CtaBandeau from './CtaBandeau.astro';
+import { site } from '../data/site';
+import type { Pole } from '../data/prestations';
+
+interface Props {
+  pole: Pole;
+}
+
+const { pole } = Astro.props;
+---
+
+<Layout titre={pole.titrePage} description={pole.description}>
+  <div class="retour-pole">
+    <div class="conteneur">
+      <a class="bouton bouton--jaune" href="/" aria-label="Retour à l’accueil">← Retour à l’accueil</a>
+    </div>
+  </div>
+
+  <Hero titre={pole.h1} sousTitre={pole.accroche}>
+    <a class="bouton bouton--clair" href="/contact">Demander un devis</a>
+    <a class="bouton bouton--contour-clair" href={site.brochure} target="_blank" rel="noopener">
+      Téléchargez notre plaquette
+    </a>
+  </Hero>
+
+  <section class="section pole-visuel" aria-label={`Illustration ${pole.nom}`}>
+    <div class="conteneur">
+      <img src={pole.image} alt={pole.imageAlt} fetchpriority="high" />
+    </div>
+  </section>
+
+  {
+    pole.sections.map((section, i) => (
+      <section class:list={['section', { 'section--alt': i % 2 === 1 }]}>
+        <div class="conteneur">
+          <h2 class="section__titre">{section.titre}</h2>
+          <p class="section__intro">{section.intro}</p>
+          <div class="grille">
+            {section.services.map((service) => (
+              <article class="service">
+                <h3>{service.titre}</h3>
+                <ul>
+                  {service.points.map((point) => (
+                    <li>{point}</li>
+                  ))}
+                </ul>
+                <div class="actions">
+                  <a class="bouton" href="/contact">Discutons de votre projet</a>
+                  <a class="bouton bouton--contour" href="#methode">Notre méthode</a>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  {
+    pole.realisations && (
+      <section class="section">
+        <div class="conteneur">
+          <h2 class="section__titre">Nos réalisations</h2>
+          <div class="grille">
+            {pole.realisations.map((r) => (
+              <article class="realisation">
+                <h3>{r.client}</h3>
+                <p>{r.texte}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <Methode />
+  <CtaBandeau />
+</Layout>
+
+<style>
+  .retour-pole {
+    padding: 0.75rem 0 0;
+    background: var(--bleu-nuit);
+  }
+
+  .retour-pole a {
+    color: var(--jaune);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .retour-pole a:hover,
+  .retour-pole a:focus-visible {
+    text-decoration: underline;
+  }
+
+  .pole-visuel {
+    padding-bottom: 0;
+  }
+
+  .pole-visuel img {
+    display: block;
+    width: 100%;
+    max-height: 28rem;
+    object-fit: cover;
+    border-radius: var(--rayon);
+  }
+
+  .service,
+  .realisation {
+    display: flex;
+    flex-direction: column;
+    background: var(--couleur-fond);
+    border: 1px solid var(--couleur-bordure);
+    border-radius: var(--rayon);
+    padding: 1.75rem;
+  }
+
+  .service ul {
+    flex: 1;
+    margin: 0 0 1.5rem;
+    padding-left: 1.2rem;
+    color: var(--couleur-texte-doux);
+  }
+
+  .service li {
+    margin-bottom: 0.5rem;
+  }
+
+  .service .actions .bouton {
+    padding: 0.6rem 1.1rem;
+    font-size: 0.92rem;
+  }
+
+  .realisation {
+    background: var(--bleu-pale);
+    border-color: transparent;
+  }
+
+  .realisation p {
+    margin: 0;
+    color: var(--couleur-texte-doux);
+  }
+</style>

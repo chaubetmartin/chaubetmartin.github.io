@@ -1,0 +1,153 @@
+---
+// COMPOSANT : En-tête avec le logo et le menu de navigation.
+// Un composant est un morceau d'interface réutilisable. Celui-ci est placé une seule
+// fois dans le layout, mais il apparaît sur toutes les pages.
+// Le menu vient de src/data/site.ts : pour ajouter une page, on ajoute une ligne là-bas.
+
+import { site, navigation } from '../data/site';
+
+// Chemin de la page affichée (ex. "/digital-data"), pour mettre en évidence le lien courant.
+const chemin = Astro.url.pathname.replace(/\/$/, '') || '/';
+const estActif = (href: string) =>
+  href === '/' ? chemin === '/' : chemin === href || chemin.startsWith(href + '/');
+---
+
+<header class="entete">
+  <div class="conteneur entete__contenu">
+    <a href="/" class="entete__logo" aria-label="N7 Consulting – accueil">
+      <img src={site.logo} alt="Logo N7 Consulting" width="150" height="44" />
+    </a>
+
+    <!-- Bouton visible uniquement sur téléphone pour ouvrir/fermer le menu -->
+    <button
+      class="entete__bouton"
+      type="button"
+      aria-expanded="false"
+      aria-controls="menu-principal"
+    >
+      Menu
+    </button>
+
+    <nav id="menu-principal" class="entete__nav" aria-label="Navigation principale">
+      <ul>
+        {
+          navigation.filter((lien) => lien.href !== '/actualites').map((lien) => (
+            <li>
+              <a href={lien.href} aria-current={estActif(lien.href) ? 'page' : undefined}>
+                {lien.texte}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a class="bouton entete__contact" href="/contact">Nous contacter</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- Petit script : ouvre et ferme le menu sur téléphone. -->
+<script>
+  const bouton = document.querySelector<HTMLButtonElement>('.entete__bouton');
+  const menu = document.querySelector('.entete__nav');
+
+  bouton?.addEventListener('click', () => {
+    const ouvert = menu?.classList.toggle('est-ouvert') ?? false;
+    bouton.setAttribute('aria-expanded', String(ouvert));
+  });
+</script>
+
+<!-- Les styles écrits dans <style> ne s'appliquent QU'À ce composant. -->
+<style>
+  .entete {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--bleu-nuit);
+  }
+
+  .entete__contenu {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    padding: 0.75rem 0;
+  }
+
+  .entete__logo {
+    display: block;
+    line-height: 0;
+  }
+
+  .entete__logo img {
+    height: 44px;
+    width: auto;
+    border-radius: 6px;
+    filter: brightness(0) saturate(100%) invert(83%) sepia(97%) saturate(1000%) hue-rotate(2deg)
+      brightness(105%) contrast(102%);
+    mix-blend-mode: screen;
+  }
+
+  .entete__bouton {
+    display: none;
+    background: transparent;
+    color: #facc15;
+    border: 1px solid rgba(250, 204, 21, 0.7);
+    border-radius: 8px;
+    padding: 0.45rem 0.9rem;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .entete__nav ul {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.4rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .entete__nav a:not(.bouton) {
+    color: #facc15;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.3rem 0;
+    border-bottom: 2px solid transparent;
+  }
+
+  .entete__nav a:not(.bouton):hover,
+  .entete__nav a[aria-current='page'] {
+    color: #fde68a;
+    border-bottom-color: #facc15;
+  }
+
+  .entete__contact {
+    padding: 0.5rem 1.2rem;
+  }
+
+  /* Téléphone : le menu devient une liste verticale, cachée tant qu'on n'a pas cliqué. */
+  @media (max-width: 960px) {
+    .entete__bouton {
+      display: block;
+    }
+
+    .entete__nav {
+      display: none;
+      width: 100%;
+    }
+
+    .entete__nav.est-ouvert {
+      display: block;
+    }
+
+    .entete__nav ul {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 0.5rem 0 1rem;
+    }
+  }
+</style>

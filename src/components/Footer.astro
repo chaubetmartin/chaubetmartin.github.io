@@ -1,0 +1,166 @@
+---
+// COMPOSANT : Pied de page (présent sur toutes les pages via le layout).
+// Il regroupe les liens vers les pôles, les coordonnées et les logos des partenaires.
+
+import { site, navigation, partenaires } from '../data/site';
+
+const annee = new Date().getFullYear(); // l'année est celle de la construction du site
+const autresLiens = navigation.filter((l) => ['/qui-sommes-nous', '/actualites'].includes(l.href));
+---
+
+<footer class="pied">
+  <div class="conteneur">
+    <div class="pied__colonnes">
+      <div>
+        <h3>N7 Consulting</h3>
+        <ul>
+          {
+            autresLiens.map((lien) => (
+              <li>
+                <a href={lien.href}>{lien.texte}</a>
+              </li>
+            ))
+          }
+          <li><a href="/contact">Nous contacter</a></li>
+          <li>
+            <a href={site.brochure} target="_blank" rel="noopener">Recevoir la brochure</a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Nous trouver</h3>
+        <ul>
+          <li>
+            <a href={site.lienCarte} target="_blank" rel="noopener">{site.adresse}</a>
+          </li>
+          <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+          <li>
+            <a class="pied__social" href={site.linkedin} target="_blank" rel="noopener">
+              <img src="https://cdn.prod.website-files.com/67a9fca34d150f14e73d9ba7/681b3654ccd730052aec5ae6_icons8-linkedin-50.png" alt="" loading="lazy" />
+              LinkedIn
+            </a>
+          </li>
+          <li>
+            <a class="pied__social" href={site.instagram} target="_blank" rel="noopener">
+              <img src="https://cdn.prod.website-files.com/67a9fca34d150f14e73d9ba7/681b36594e5161eaa463b491_icons8-instagram-60.png" alt="" loading="lazy" />
+              Instagram
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pied__partenaires">
+      <h3>Nos partenaires</h3>
+      <ul>
+        {
+          partenaires.map((p) => (
+            <li>
+              <a href={p.lien} target="_blank" rel="noopener" aria-label={p.nom}>
+                <img src={p.logo} alt={`Logo ${p.nom}, partenaire de N7 Consulting`} loading="lazy" />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="pied__bas">
+      <p>© {annee} {site.nom}. Tous droits réservés.</p>
+      <p><a href="/mentions-legales">Mentions légales</a></p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .pied {
+    background: var(--bleu-nuit);
+    color: #facc15;
+    padding: 3.5rem 0 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  .pied h3 {
+    color: #fde68a;
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .pied ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .pied li {
+    margin-bottom: 0.4rem;
+  }
+
+  .pied a {
+    color: #facc15;
+    text-decoration: none;
+  }
+
+  .pied a:hover {
+    color: #fde68a;
+    text-decoration: underline;
+  }
+
+  .pied__social {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .pied__social img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    filter: brightness(0) saturate(100%) invert(83%) sepia(97%) saturate(1000%) hue-rotate(2deg)
+      brightness(105%) contrast(102%);
+    mix-blend-mode: screen;
+  }
+
+  .pied__colonnes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+  }
+
+  .pied__partenaires {
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .pied__partenaires ul {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5rem 2.5rem;
+  }
+
+  .pied__partenaires img {
+    height: 30px;
+    width: auto;
+    opacity: 0.85;
+    filter: brightness(0) saturate(100%) invert(83%) sepia(97%) saturate(1000%) hue-rotate(2deg)
+      brightness(105%) contrast(102%);
+    mix-blend-mode: screen;
+  }
+
+  .pied__bas {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    margin-top: 2rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .pied__bas p {
+    margin: 0;
+  }
+</style>

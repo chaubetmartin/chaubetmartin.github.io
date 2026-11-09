@@ -1,0 +1,191 @@
+---
+import { poles } from '../data/prestations';
+---
+
+<div class="roulette-bloc">
+  <h2 class="section__titre">Quels défis souhaitez-vous relever ?</h2>
+  <p class="section__intro">
+    Choisissez un pôle d’expertise : la roulette vous y conduira.
+  </p>
+  <div class="roulette" aria-label="Choisir un pôle d'expertise">
+    <div class="roulette__anneau" aria-hidden="true"></div>
+    <div class="roulette__roue" data-roulette>
+      {
+        poles.map((pole, index) => (
+          <a
+            class="roulette__lien"
+            href={pole.href}
+            style={`--angle: ${index * 120 - 90}deg`}
+            data-angle={index * 120 - 90}
+            aria-label={`Découvrir le pôle ${pole.nom}`}
+          >
+            <span class="roulette__texte">
+              <span class="roulette__emoji" aria-hidden="true">{pole.emoji}</span>
+              <span>{pole.nom}</span>
+            </span>
+          </a>
+        ))
+      }
+    </div>
+    <p class="roulette__centre">Nos pôles<br />d’expertise</p>
+  </div>
+</div>
+
+<script>
+  const roulette = document.querySelector<HTMLElement>('[data-roulette]');
+
+  roulette?.querySelectorAll<HTMLAnchorElement>('.roulette__lien').forEach((lien) => {
+    lien.addEventListener('click', (event) => {
+      if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+
+      const liens = [...roulette.querySelectorAll<HTMLAnchorElement>('.roulette__lien')];
+      if (roulette.dataset.spinning === 'true') return;
+
+      roulette.dataset.spinning = 'true';
+      liens.forEach((element) => element.setAttribute('aria-disabled', 'true'));
+
+      const angleInitial = Number(lien.dataset.angle);
+      const rotation = (90 - angleInitial + 360) % 360;
+      roulette.style.setProperty('--rotation', `${rotation}deg`);
+
+      const destination = lien.href;
+      const ouvrirPage = () => window.location.assign(destination);
+
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        ouvrirPage();
+        return;
+      }
+
+      roulette.addEventListener(
+        'transitionend',
+        (transitionEvent) => {
+          if (transitionEvent.target === roulette && transitionEvent.propertyName === 'transform') {
+            ouvrirPage();
+          }
+        },
+        { once: true },
+      );
+      window.setTimeout(ouvrirPage, 1000);
+    });
+  });
+</script>
+
+<style>
+  .roulette-bloc {
+    display: grid;
+    justify-items: center;
+  }
+
+  .roulette-bloc .section__titre {
+    max-width: 22rem;
+  }
+
+  .roulette-bloc .section__intro {
+    margin-bottom: 0;
+  }
+
+  .roulette {
+    position: relative;
+    display: grid;
+    width: min(100%, 26rem);
+    height: 24rem;
+    margin: 0 auto;
+    place-items: center;
+  }
+
+  .roulette__anneau {
+    position: absolute;
+    width: 15.5rem;
+    aspect-ratio: 1;
+    border: 2px dashed var(--couleur-bordure);
+    border-radius: 50%;
+  }
+
+  .roulette__roue {
+    position: absolute;
+    inset: 0;
+    transform: rotate(var(--rotation, 0deg));
+    transition: transform 750ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .roulette__lien {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: grid;
+    width: 8.25rem;
+    aspect-ratio: 1;
+    padding: 0.75rem;
+    place-items: center;
+    color: var(--bleu-nuit);
+    background: #fff;
+    border: 3px solid var(--bleu);
+    border-radius: 50%;
+    box-shadow: 0 8px 20px rgba(10, 31, 68, 0.14);
+    font-weight: 700;
+    line-height: 1.25;
+    text-align: center;
+    text-decoration: none;
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-7.25rem);
+    transition:
+      background-color 180ms ease,
+      box-shadow 180ms ease;
+  }
+
+  .roulette__lien:hover,
+  .roulette__lien:focus-visible {
+    background: var(--bleu-pale);
+    box-shadow: 0 10px 24px rgba(10, 31, 68, 0.22);
+  }
+
+  .roulette__lien[aria-disabled='true'] {
+    pointer-events: none;
+  }
+
+  .roulette__texte {
+    display: grid;
+    justify-items: center;
+    gap: 0.25rem;
+    transform: rotate(calc(-1 * var(--angle) - var(--rotation, 0deg)));
+  }
+
+  .roulette__emoji {
+    font-size: 1.5rem;
+  }
+
+  .roulette__centre {
+    z-index: 1;
+    margin: 0;
+    color: var(--couleur-texte-doux);
+    font-size: 0.92rem;
+    font-weight: 600;
+    line-height: 1.4;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  @media (max-width: 480px) {
+    .roulette {
+      height: 21rem;
+    }
+
+    .roulette__anneau {
+      width: 12.5rem;
+    }
+
+    .roulette__lien {
+      width: 7rem;
+      padding: 0.5rem;
+      transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-5.8rem);
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .roulette__roue,
+    .roulette__lien {
+      transition-duration: 0.01ms;
+    }
+  }
+</style>

@@ -1,0 +1,54 @@
+---
+// LAYOUT = le "squelette" commun à toutes les pages.
+// Il contient la structure HTML (<html>, <head>, <body>), l'en-tête et le pied de page.
+// Chaque page l'utilise en l'entourant : <Layout titre="..."> ...contenu... </Layout>
+//
+// La partie entre les "---" est le "frontmatter" : du code (TypeScript) exécuté
+// à la construction du site, jamais dans le navigateur du visiteur.
+
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+import '../styles/global.css';
+
+// Les "props" sont les paramètres que la page transmet au layout.
+interface Props {
+  titre: string; // titre complet de l'onglet du navigateur et de Google
+  description?: string;
+}
+
+const { titre, description = site.description } = Astro.props;
+
+// Adresse complète de la page courante (balise canonical, partage sur les réseaux).
+const urlCanonique = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titre}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={urlCanonique} />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Aperçu lors d'un partage sur LinkedIn, etc. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content={site.nom} />
+    <meta property="og:title" content={titre} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={urlCanonique} />
+    <meta property="og:image" content={site.logo} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <!-- <slot /> = emplacement où sera inséré le contenu propre à chaque page -->
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

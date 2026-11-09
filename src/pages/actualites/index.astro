@@ -1,0 +1,49 @@
+---
+// PAGE : src/pages/actualites/index.astro  →  adresse "/actualites"
+// Liste de tous les articles. Ils viennent de la collection "actualites"
+// (fichiers .md du dossier src/content/actualites).
+
+import Layout from '../../layouts/Layout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import CtaBandeau from '../../components/CtaBandeau.astro';
+import { articlesTries } from '../../data/articles';
+
+const articles = await articlesTries();
+---
+
+<Layout
+  titre="Actualités – N7 Consulting"
+  description="Études réalisées, partenariats et vie de la Junior-Entreprise de l'ENSEEIHT : suivez l'actualité de N7 Consulting à Toulouse."
+>
+  <section class="section">
+    <div class="conteneur">
+      <p>
+        <a class="bouton bouton--jaune" href="/" data-retour-provenance>
+          ← Retour à la page précédente
+        </a>
+      </p>
+      <h1 class="section__titre">Actualités</h1>
+      <p class="section__intro">
+        Études de cas, événements, vie de la Junior et guides pratiques : suivez l'actualité de N7
+        Consulting, la Junior-Entreprise de l'ENSEEIHT.
+      </p>
+      <div class="grille">
+        {articles.map((article) => <ArticleCard article={article} />)}
+      </div>
+    </div>
+  </section>
+
+  <CtaBandeau />
+</Layout>
+
+<script>
+  const lienRetour = document.querySelector<HTMLAnchorElement>('[data-retour-provenance]');
+
+  lienRetour?.addEventListener('click', (event) => {
+    const provenance = document.referrer ? new URL(document.referrer) : null;
+    if (provenance?.origin !== window.location.origin) return;
+
+    event.preventDefault();
+    window.history.back();
+  });
+</script>
